@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Change a point color</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Access-Control-Allow-Origin" content="*">
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="600" height="600">
+    Please use a browser that supports "canvas"
+    </canvas>
+
+    <div id="fpsCounter"></div>
+
+    <input type="text" id="customMapInput"> <- paste custom map data into here
+    <br>
+    <button type="button" id="loadCustomMapButton"> Load custom map </button>
+    <br>
+
+    <button type="button" id="loadEmptyMapButton"> Load empty map</button>
+    <br>
+    <button type="button" id="loadMapWithFloorButton"> Load map with just floor of cubes</button>
+    <br>
+    <button type="button" id="loadMapWithSomeStructuresButton"> Load map with some structures</button>
+
+
+    <hr>
+
+    <p>Features:</p>
+    <p>- WASD - movement</p>
+    <p>- Q / E - left / right</p>
+    <p>- T / G- place / delete block</p>
+    <p>- R / F - up /  down</p>
+    <p>- P - print out world state (check console)</p>
+    <p>- Press down left click to pan camera</p>
+    <P>- 32x32x32 world of blocks</P>
+    <p>Notes:</p>
+    <p>- Trying to add or delete blocks outside of the 32x32x32 area causes errors</p>
+    <p>- Looking directly up or down causes the camera to spin/bug out</p>
+    <p>- Cube vertices and UVs are drawn all together per cube</p>
+    <p> (default performance might seem low but that's because the entire floor is made of individually destructable cubes)</p>
+    <p>- FPS counter is the same one that the professor showed in an older video</p>
+
+    <p>
+    <script src="lib/cuon-matrix-cse160.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+
+    <script src="src/Point.js"></script>
+    <script src="src/Triangle.js"></script>
+    <script src="src/Circle.js"></script>
+    <script src="src/Cube.js"></script>
+    <script src="src/Camera.js"></script>
+    
+    <script src="src/World.js"></script>
+  </body>
+</html>
+
+<!--
+  Notes:
+  I used ChatGPT to adapt my panLeft and panRight functions to panUp and panDown (it told me to use the right vector instead of the up vector)
+  I also used ChatGPT to learn how to stringify using JSON
+  I also used code from the professor's videos
+-->
