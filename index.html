@@ -5,6 +5,13 @@
     <title>Change a point color</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="Access-Control-Allow-Origin" content="*">
+    <style>
+      #webgl{
+        width: 600px;
+        height: 600px;
+        float: left;
+      }
+    </style>
   </head>
 
   <body onload="main()">
@@ -14,9 +21,12 @@
 
     <div id="fpsCounter"></div>
 
+    <hr>
+
     <input type="text" id="customMapInput"> <- paste custom map data into here
     <br>
     <button type="button" id="loadCustomMapButton"> Load custom map </button>
+    
     <hr>
 
     <button type="button" id="loadEmptyMapButton"> Load empty map</button>
@@ -25,24 +35,59 @@
     <br>
     <button type="button" id="loadMapWithSomeStructuresButton"> Load map with some structures</button>
 
+    <hr>
+
+    <button type="button" id="playSnakeButton">Play Snake</button> <input type="checkbox" id="snakeEasyModeCheckbox"> easy mode (the snake won't move by itself)
+    <br>
+    <div id="snakeOutput"></div>
 
     <hr>
 
-    <p>Features:</p>
-    <p>- WASD - movement</p>
-    <p>- Q / E - left / right</p>
-    <p>- T / G- place / delete block</p>
-    <p>- R / F - up /  down</p>
-    <p>- P - print out world state (check console)</p>
-    <p>- Load custom map (press P to print out current map data in console)</p>
-    <p>- Press down left click to pan camera</p>
-    <P>- 32x32x32 world of blocks</P>
-    <p>Notes:</p>
-    <p>- Trying to add or delete blocks outside of the 32x32x32 area causes errors</p>
-    <p>- Looking directly up or down causes the camera to spin/bug out</p>
-    <p>- Cube vertices and UVs are drawn all together per cube</p>
-    <p> (default performance might seem low but that's because the entire floor is made of individually destructable cubes)</p>
-    <p>- FPS counter is the same one that the professor showed in an older video</p>
+    <!-- FEATURES -->
+    <div>
+      <b>---Features:---</b><br>
+      - WASD - movement (smooth + allows for combination of directions)<br>
+      - Q / E - left / right<br>
+      - T / G- place / delete block<br>
+      - R / F - up /  down<br>
+      - P - print out world state (open console see data and copy)<br>
+      - Load custom map (press P to print out current map data in console)<br>
+      - Press down left click to pan camera<br>
+      - 32x32x32 world of blocks<br>
+      - Press the "Play Snake" button to play a game of Snake
+    </div>
+
+    <hr>
+    
+    <!-- NOTES -->
+    <div>
+      <b>---Notes:---</b><br>
+      - Trying to add or delete blocks outside of the 32x32x32 area causes errors (the 32x32x32 area is outlined by the white outline, with the outline outwards-indented by 1 unit)<br>
+      - Trying to leave the 32x32x32 area while playing Snake sometimes freezes the program (it is like crashing into a wall in Snake so you lose)<br>
+      - Cube vertices and UVs are drawn all together per cube (default performance might seem low but that's because the entire floor is made of individually destructable cubes)<br>
+      - FPS counter is the same one that the professor showed in an older video<br>
+      - Snake collisions are sometimes weird (the camera does not move in a grid while the snake does)<br>
+    </div>
+
+    <hr>
+
+    <!-- KNOWN PROBLEMS-->
+    <div>
+      <b>---Known problems:---</b><br>
+      - Looking directly up or down can cause the camera to spin/bug out<br>
+      - Loading a new map while playing Snake creates weird behaviors (collisions work correctly, but the snake is cleared visually must be rebuilt, and the current apple becomes invisible but can still be collected)<br>
+      - Playing multiple games of Snake without reloading the page could create weird behaviors (old snake is not cleared, occasional weird things happen to the apples)<br>
+      - Trying to leave the 32x32x32 area while playing Snake sometimes displays the "you lose" message with a score, but sometimes it doesn't (it seems to work correctly only when colliding with the forward and backward walls of the play area)<br>
+      - Snake movement speed is tied to framerate, but it was too unreliable and sped up/slowed down too much when I tried to make it framerate independent<br>
+    </div>
+
+    <hr>
+
+    <!-- TLDR-->
+    <div>
+      <b>---TLDR:---</b><br>
+      - Doing anything that relates to cubes (including Snake) outside of the highlighted play area causes errors (and may cause freezes). Check console to see<br>
+    </div>
 
     <p>
     <script src="lib/cuon-matrix-cse160.js"></script>
@@ -55,6 +100,8 @@
     <script src="src/Circle.js"></script>
     <script src="src/Cube.js"></script>
     <script src="src/Camera.js"></script>
+    <script src="src/Snake.js"></script>
+    <script src="src/MapData.js"></script>
     
     <script src="src/World.js"></script>
   </body>
@@ -64,5 +111,7 @@
   Notes:
   I used ChatGPT to adapt my panLeft and panRight functions to panUp and panDown (it told me to use the right vector instead of the up vector)
   I also used ChatGPT to learn how to stringify using JSON
+  I also used ChatGPT to allow my text to be to the right of my canvas
   I also used code from the professor's videos
+  -https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 -->
