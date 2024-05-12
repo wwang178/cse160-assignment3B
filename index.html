@@ -55,6 +55,7 @@
       - Press down left click to pan camera<br>
       - 32x32x32 world of blocks<br>
       - Press the "Play Snake" button to play a game of Snake
+      - Framerate-independent movement and camera panning (turning on hardware acceleration still makes it better)
     </div>
 
     <hr>
@@ -78,7 +79,6 @@
       - Loading a new map while playing Snake creates weird behaviors (collisions work correctly, but the snake is cleared visually must be rebuilt, and the current apple becomes invisible but can still be collected)<br>
       - Playing multiple games of Snake without reloading the page could create weird behaviors (old snake is not cleared, occasional weird things happen to the apples)<br>
       - Trying to leave the 32x32x32 area while playing Snake sometimes displays the "you lose" message with a score, but sometimes it doesn't (it seems to work correctly only when colliding with the forward and backward walls of the play area)<br>
-      - Snake movement speed is tied to framerate, but it was too unreliable and sped up/slowed down too much when I tried to make it framerate independent<br>
     </div>
 
     <hr>

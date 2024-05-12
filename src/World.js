@@ -223,14 +223,15 @@ function main() {
     canvas.onmousemove = function (ev) {
         if (!g_mouseDown)
             return;
+        let panAmount = 300;
         if (ev.clientX > g_mouseX)
-            g_camera.panRight(1.5);
+            g_camera.panRight(g_deltaTime * panAmount);
         else if (ev.clientX < g_mouseX)
-            g_camera.panLeft(1.5);
+            g_camera.panLeft(g_deltaTime * panAmount);
         if (ev.clientY < g_mouseY)
-            g_camera.panUp(1.5);
+            g_camera.panUp(g_deltaTime * panAmount);
         else if (ev.clientY > g_mouseY)
-            g_camera.panDown(1.5);
+            g_camera.panDown(g_deltaTime * panAmount);
         g_mouseX = ev.clientX;
         g_mouseY = ev.clientY;
     };
@@ -373,23 +374,24 @@ function keyup(ev) {
 }
 
 function handleMovement() {
-    let moveDistance = 0.1;
+    let moveDistance = 20;
+    let panAmount = 150;
     if (g_movementKeys["w"] || g_movementKeys["W"])
-        g_camera.forward(moveDistance);
+        g_camera.forward(g_deltaTime * moveDistance);
     if (g_movementKeys["a"] || g_movementKeys["A"])
-        g_camera.left(moveDistance);
+        g_camera.left(g_deltaTime * moveDistance);
     if (g_movementKeys["s"] || g_movementKeys["S"])
-        g_camera.back(moveDistance);
+        g_camera.back(g_deltaTime * moveDistance);
     if (g_movementKeys["d"] || g_movementKeys["D"])
-        g_camera.right(moveDistance);
+        g_camera.right(g_deltaTime * moveDistance);
     if (g_movementKeys["q"] || g_movementKeys["Q"])
-        g_camera.panLeft(1);
+        g_camera.panLeft(g_deltaTime * panAmount);
     if (g_movementKeys["e"] || g_movementKeys["E"])
-        g_camera.panRight(1);
+        g_camera.panRight(g_deltaTime * panAmount);
     if (g_movementKeys["r"] || g_movementKeys["R"])
-        g_camera.moveUp(moveDistance);
+        g_camera.moveUp(g_deltaTime * moveDistance);
     if (g_movementKeys["f"] || g_movementKeys["F"])
-        g_camera.moveDown(moveDistance);
+        g_camera.moveDown(g_deltaTime * moveDistance);
 }
 
 function initTextures() {
@@ -672,16 +674,20 @@ function renderAllShapes() {
 
 let g_startTime = performance.now() / 1000.0;
 let g_seconds = performance.now() / 1000.0 - g_startTime;
+let g_lastTickTime = performance.now() / 1000.0;
+let g_deltaTime;
 
 function tick() {
     g_seconds = performance.now() / 1000.0 - g_startTime;
+    g_deltaTime = performance.now() / 1000.0 - g_lastTickTime;
+    g_lastTickTime = performance.now() / 1000.0;
     handleMovement();
     renderAllShapes();
     if (g_isPlayingSnake) {
         g_snake.moveHeadTo(getCurrentPos());
         if (!g_snakeEasyMode)
-            g_camera.forward(0.05);
-        //g_camera.forward(g_seconds * 0.02); // it speeds up/slows down too much when I try to make it framerate independent
+            // g_camera.forward(0.05);
+            g_camera.forward(g_deltaTime * 10);
     }
     requestAnimationFrame(tick);
 }
